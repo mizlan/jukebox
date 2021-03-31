@@ -67,3 +67,17 @@ all_song_ids() {
     printf "%s\n" "$(basename "$song" .m4a)"
   done
 }
+
+# get user selection, returns song ID(s)
+# option of single or multiple selection
+select_song() {
+  case "$1" in
+    single) filter=$FILTER ;;
+    multi) filter=$MULTI_FILTER ;;
+    *) exit 1 ;;
+  esac
+  all_song_ids \
+    | repeat_action describe_song \
+    | $filter \
+    | repeat_action get_song_id
+}
