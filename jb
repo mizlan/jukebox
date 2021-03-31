@@ -8,3 +8,32 @@ shopt -s nullglob
 [ -z "$PLAYER" ] && PLAYER="afplay"
 [ -z "$FILTER" ] && FILTER="fzf"
 [ -z "$MULTI_FILTER" ] && MULTI_FILTER="fzf -m"
+
+
+# repeats action for each line of input
+repeat_action() {
+  action="$1"
+  while read -r line; do
+    echo "$line" | $action
+  done < /dev/stdin
+}
+
+# song ID -> adds song
+add_song() {
+  read -r song_id
+  dest="${SONG_DIR}/%(id)s.%(ext)s"
+  youtube-dl --no-playlist -f 'bestaudio[ext=m4a]' --write-info-json -o "$dest" "$song_id"
+}
+
+# song ID -> deletes song
+del_song() {
+  read -r song_id
+  [ -n "$id" ] || exit 1;
+  rm -v "$SONG_DIR"/"$song_id"*
+}
+
+# song ID -> plays song
+play_song() {
+  read -r song_id
+  "$PLAYER" "$SONG_DIR"/"$song_id".m4a
+}
