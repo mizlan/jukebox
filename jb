@@ -37,3 +37,33 @@ play_song() {
   read -r song_id
   "$PLAYER" "$SONG_DIR"/"$song_id".m4a
 }
+
+# song ID -> description/metadata
+describe_song() {
+  read -r song_id
+  cached_info="$INFO_DIR"/"$song_id"
+  [ -e "$cached_info" ] || {
+    # NOTE: cache the info
+    info_file="$SONG_DIR"/"$song_id".info.json
+    [ -d "$INFO_DIR" ] || mkdir -p "$INFO_DIR"
+    title=$(jq -r '.title' < "$info_file")
+    uploader=$(jq -r '.uploader' < "$info_file")
+    printf "%s uploaded by %s [id:%s]\n" "$title" "$uploader" "$song_id" > "$cached_info"
+  }
+  cat "$cached_info"
+}
+
+# description/metadata -> song ID
+get_song_id() {
+  read -r song_id
+  echo "$song_id" \
+    | grep -E '\[id:[A-Za-z0-9_-]+\]' \
+    | sed 's/.*\[id://; s/\]$//'
+}
+
+# get a list of song IDs
+all_song_ids() {
+  for song in "$SONG_DIR"/*.m4a; do
+    printf "%s\n" "$(basename "$song" .m4a)"
+  done
+}
