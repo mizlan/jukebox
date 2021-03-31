@@ -81,3 +81,15 @@ select_song() {
     | $filter \
     | repeat_action get_song_id
 }
+
+case "$1" in
+  a) repeat_action add_song ;;
+  d) repeat_action del_song ;;
+  p) repeat_action play_song ;;
+  D) repeat_action describe_song ;;
+  l) all_song_ids | repeat_action describe_song ;;
+  s1) select_song single ;;
+  s) select_song multi ;;
+  ids) all_song_ids ;;
+  *) echo "nope" ;;
+esac
