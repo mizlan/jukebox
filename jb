@@ -2,12 +2,12 @@
 
 shopt -s nullglob
 
-[ -z "$ROOT_DIR" ] && ROOT_DIR="$HOME/jb"
-[ -z "$SONG_DIR" ] && SONG_DIR="$ROOT_DIR/songs"
-[ -z "$INFO_DIR" ] && INFO_DIR="$ROOT_DIR/cache"
-[ -z "$PLAYER" ] && PLAYER="afplay"
-[ -z "$FILTER" ] && FILTER="fzf"
-[ -z "$MULTI_FILTER" ] && MULTI_FILTER="fzf -m"
+[ -z "$JB_ROOT_DIR" ] && JB_ROOT_DIR="$HOME/jb"
+[ -z "$JB_SONG_DIR" ] && JB_SONG_DIR="$JB_ROOT_DIR/songs"
+[ -z "$JB_INFO_DIR" ] && JB_INFO_DIR="$JB_ROOT_DIR/cache"
+[ -z "$JB_PLAYER" ] && JB_PLAYER="afplay"
+[ -z "$JB_FILTER" ] && JB_FILTER="fzf"
+[ -z "$JB_MULTI_FILTER" ] && JB_MULTI_FILTER="fzf -m"
 
 
 # repeats action for each line of input
@@ -21,7 +21,7 @@ repeat_action() {
 # song ID -> adds song
 add_song() {
   read -r song_id
-  dest="${SONG_DIR}/%(id)s.%(ext)s"
+  dest="${JB_SONG_DIR}/%(id)s.%(ext)s"
   youtube-dl --no-playlist -f 'bestaudio[ext=m4a]' --write-info-json -o "$dest" "$song_id"
 }
 
@@ -29,23 +29,23 @@ add_song() {
 del_song() {
   read -r song_id
   [ -n "$id" ] || exit 1;
-  rm -v "$SONG_DIR"/"$song_id"*
+  rm -v "$JB_SONG_DIR"/"$song_id"*
 }
 
 # song ID -> plays song
 play_song() {
   read -r song_id
-  $PLAYER "$SONG_DIR"/"$song_id".m4a
+  $JB_PLAYER "$JB_SONG_DIR"/"$song_id".m4a
 }
 
 # song ID -> description/metadata
 describe_song() {
   read -r song_id
-  cached_info="$INFO_DIR"/"$song_id"
+  cached_info="$JB_INFO_DIR"/"$song_id"
   [ -e "$cached_info" ] || {
     # NOTE: cache the info
-    info_file="$SONG_DIR"/"$song_id".info.json
-    [ -d "$INFO_DIR" ] || mkdir -p "$INFO_DIR"
+    info_file="$JB_SONG_DIR"/"$song_id".info.json
+    [ -d "$JB_INFO_DIR" ] || mkdir -p "$JB_INFO_DIR"
     title=$(jq -r '.title' < "$info_file")
     uploader=$(jq -r '.uploader' < "$info_file")
     printf "%s uploaded by %s [id:%s]\n" "$title" "$uploader" "$song_id" > "$cached_info"
@@ -63,7 +63,7 @@ get_song_id() {
 
 # get a list of song IDs
 all_song_ids() {
-  for song in "$SONG_DIR"/*.m4a; do
+  for song in "$JB_SONG_DIR"/*.m4a; do
     printf "%s\n" "$(basename "$song" .m4a)"
   done
 }
@@ -72,13 +72,13 @@ all_song_ids() {
 # option of single or multiple selection
 select_song() {
   case "$1" in
-    single) filter=$FILTER ;;
-    multi) filter=$MULTI_FILTER ;;
+    single) JB_FILTER=$JB_FILTER ;;
+    multi) JB_FILTER=$JB_MULTI_FILTER ;;
     *) exit 1 ;;
   esac
   all_song_ids \
     | repeat_action describe_song \
-    | $filter \
+    | $JB_FILTER \
     | repeat_action get_song_id
 }
 

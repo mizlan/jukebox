@@ -21,7 +21,7 @@ player afplay:
 Use `vis -` as a Unix filter and select multiple songs to shuffle and play
 (uses shuf from GNU coreutils):
 
-  $ MULTI_FILTER="vis -" jb s | shuf | jb p
+  $ JB_MULTI_FILTER="vis -" jb s | shuf | jb p
 
 Playlists are just plaintext files that contain IDs. To make a playlist from a
 filter selection:
