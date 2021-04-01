@@ -36,3 +36,5 @@ To play the playlist, pipe it into jukebox to play:
 To play it shuffled, just shuffle the lines of input:
 
   $ cat ~/jb/playlists/classical-music | shuf | jb p
+
+To skip a song, interrupt the player process (by default afplay) with ^C.
