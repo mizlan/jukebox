@@ -22,3 +22,17 @@ Use `vis -` as a Unix filter and select multiple songs to shuffle and play
 (uses shuf from GNU coreutils):
 
   $ MULTI_FILTER="vis -" jb s | shuf | jb p
+
+Playlists are just plaintext files that contain IDs. To make a playlist from a
+filter selection:
+
+  $ mkdir -p ~/jb/playlists
+  $ jb s > ~/jb/playlists/classical-music
+
+To play the playlist, pipe it into jukebox to play:
+
+  $ cat ~/jb/playlists/classical-music | jb p
+
+To play it shuffled, just shuffle the lines of input:
+
+  $ cat ~/jb/playlists/classical-music | shuf | jb p
