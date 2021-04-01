@@ -35,7 +35,7 @@ del_song() {
 # song ID -> plays song
 play_song() {
   read -r song_id
-  "$PLAYER" "$SONG_DIR"/"$song_id".m4a
+  $PLAYER "$SONG_DIR"/"$song_id".m4a
 }
 
 # song ID -> description/metadata
