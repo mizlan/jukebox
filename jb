@@ -72,13 +72,13 @@ all_song_ids() {
 # option of single or multiple selection
 select_song() {
   case "$1" in
-    single) JB_FILTER=$JB_FILTER ;;
-    multi) JB_FILTER=$JB_MULTI_FILTER ;;
+    single) filter=$JB_FILTER ;;
+    multi) filter=$JB_MULTI_FILTER ;;
     *) exit 1 ;;
   esac
   all_song_ids \
     | repeat_action describe_song \
-    | $JB_FILTER \
+    | $filter \
     | repeat_action get_song_id
 }
 
