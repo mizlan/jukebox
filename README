@@ -3,13 +3,11 @@ jukebox
 
 jukebox is a wrapper around youtube-dl that does a few useful things.
 
-Almost everything is done using pipes.
-
-
 Examples
 --------------------------------------------------------------------------------
 
-Add a song to the default directory ~/jb/songs configurable through $SONG_DIR:
+Add a song to the default directory ~/jb/songs configurable through
+$JB_SONG_DIR:
 
   $ cat 'https://youtube.com/...' | jb a
 
