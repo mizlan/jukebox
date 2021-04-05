@@ -47,3 +47,7 @@ To play it shuffled, just shuffle the lines of input:
     $ cat ~/jb/playlists/classical-music | shuf | jb p
 
 To skip a song, interrupt the process with ^C.
+
+## todo
+
+- [ ] remove all appearances of a song in playlists when the song is deleted from the library
