@@ -13,8 +13,7 @@ provided that they suit this philosophy.
 - a Unix filter (default `fzf` but this can be configured)
 - a music player (default `afplay` but this can be configured)
 
-Examples
---------------------------------------------------------------------------------
+## examples
 
 Add a song to the default directory ~/jb/songs configurable through
 `$JB_SONG_DIR`:
