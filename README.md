@@ -13,7 +13,7 @@ provided that they suit this philosophy.
 - a Unix filter (default `fzf` but this can be configured)
 - a music player (default `afplay` but this can be configured)
 
-## examples
+## example usage
 
 Add a song to the default directory ~/jb/songs configurable through
 `$JB_SONG_DIR`:
@@ -29,6 +29,8 @@ Use `vis -` as a Unix filter and select multiple songs to shuffle and play
 (uses shuf from GNU coreutils):
 
     $ JB_MULTI_FILTER="vis -" jb s | shuf | jb p
+
+## playlists
 
 Playlists are just plaintext files that contain IDs. To make a playlist from a
 filter selection:
