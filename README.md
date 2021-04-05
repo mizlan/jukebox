@@ -1,6 +1,6 @@
 # jukebox
 
-`jukebox` is a small command-line music tool that does a few useful things.
+`jukebox` is a small command-line music tool for youtube-dl that does a few useful things.
 
 `jukebox` tries to adhere to the Unix philosophy. Please suggest improvements,
 provided that they suit this philosophy.
