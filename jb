@@ -82,6 +82,23 @@ select_song() {
     | repeat_action get_song_id
 }
 
+description() {
+  cat << EOF
+jb: a command-line music manager
+
+a   - add song(s) by piping link(s) through stdlin
+d   - delete song(s) by piping song id(s) through stdin
+p   - play song(s) by piping song id(s) through stdin
+D   - describe all song ids from stdin
+l   - describe all downloaded songs
+s1  - select a single song
+s   - select multiple songs
+      (the only difference between <s> and <s1> is which
+      filter they use, to provide a convenience)
+ids - print all song ids
+EOF
+}
+
 case "$1" in
   a) repeat_action add_song ;;
   d) repeat_action del_song ;;
@@ -91,5 +108,5 @@ case "$1" in
   s1) select_song single ;;
   s) select_song multi ;;
   ids) all_song_ids ;;
-  *) echo "nope" ;;
+  *) description ;;
 esac
